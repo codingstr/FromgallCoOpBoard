@@ -1,0 +1,7 @@
+10
+!White List
+pc
+뉴비
+!Black List
+xbox
+엑박

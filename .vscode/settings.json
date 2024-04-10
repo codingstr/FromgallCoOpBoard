@@ -1,0 +1,10 @@
+{
+  "background.fullscreen": {
+    "background.enabled": true,
+    "images": ["https://i.imgur.com/hNwR4yZ.png"],
+    "opacity": 0.91, // 0.85 ~ 0.95 recommended
+    "size": "cover",
+    "position": "center",
+    "interval": 0
+  }
+}
