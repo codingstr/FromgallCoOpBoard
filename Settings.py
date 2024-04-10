@@ -119,9 +119,9 @@ def delBlackList(targetWord, tree) :
 
 def loadSettings() :
     global settings
-    settings = [10, [], []]
     filename = "settings.txt"
     if os.path.exists(filename) :
+        settings = [10, [], []]
         with open(filename, 'r', encoding='utf-8') as f :
             while True :
                 line = f.readline()

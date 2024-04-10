@@ -45,45 +45,45 @@ def getNewPosts() :
     global postsInfo
     global postCount
 
-    try :
-        req = urllib.request.Request(
-            gallUrl, 
-            data=None, 
-            headers={
-                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'
-            }
-        )
-        response = urllib.request.urlopen(req)
-        soup = bs4.BeautifulSoup(response.read(), 'html.parser')
+    # try :
+    req = urllib.request.Request(
+        gallUrl, 
+        data=None, 
+        headers={
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'
+        }
+    )
+    response = urllib.request.urlopen(req)
+    soup = bs4.BeautifulSoup(response.read(), 'html.parser')
 
-        rows = soup.find_all('tr', {'class': 'ub-content us-post'})
-        insertLoc = copy.deepcopy(postCount)
-        tempLastPostNum = copy.deepcopy(lastPostNum)
-        for row in rows:
-            postNum = row.find('td', {'class': 'gall_num'})
-            if int(postNum.text) > tempLastPostNum :
-                if tempLastPostNum != 0 : 
-                    print("New Post Found!" + str(tempLastPostNum))
-                newPostNumList.insert(insertLoc, int(postNum.text))
-                postTitle = row.find('a')
-                postDate = row.find('td', {'class': 'gall_date'})
-                postWriter = row.find('td', {'class': 'gall_writer ub-writer'})
-                time = str(postDate.get('title')).split(' ')[1]
-                time = time[:5]
-                post = Post(int(postNum.text), str(postTitle.text.strip()), time, str(postWriter.get('data-nick')))
-                writerIP = row.find('span', {'class': 'ip'})
-                if writerIP is not None:
-                    post.writer += " " + writerIP.text
-                else :
-                    post.writer += " (ID)"
-                post.saveContent(getPostContent(postNum.text))
-                postsInfo.insert(insertLoc, post)
-                postCount += 1
-                if lastPostNum < int(postNum.text) :
-                    lastPostNum = int(postNum.text)
-        return insertLoc
-    except :
-        print("Error")
+    rows = soup.find_all('tr', {'class': 'ub-content us-post'})
+    insertLoc = copy.deepcopy(postCount)
+    tempLastPostNum = copy.deepcopy(lastPostNum)
+    for row in rows:
+        postNum = row.find('td', {'class': 'gall_num'})
+        if int(postNum.text) > tempLastPostNum :
+            # if tempLastPostNum != 0 : 
+                # print("New Post Found!" + str(tempLastPostNum))
+            newPostNumList.insert(insertLoc, int(postNum.text))
+            postTitle = row.find('a')
+            postDate = row.find('td', {'class': 'gall_date'})
+            postWriter = row.find('td', {'class': 'gall_writer ub-writer'})
+            time = str(postDate.get('title')).split(' ')[1]
+            time = time[:5]
+            post = Post(int(postNum.text), str(postTitle.text.strip()), time, str(postWriter.get('data-nick')))
+            writerIP = row.find('span', {'class': 'ip'})
+            if writerIP is not None:
+                post.writer += " " + writerIP.text
+            else :
+                post.writer += " (ID)"
+            post.saveContent(getPostContent(postNum.text))
+            postsInfo.insert(insertLoc, post)
+            postCount += 1
+            if lastPostNum < int(postNum.text) :
+                lastPostNum = int(postNum.text)
+    return insertLoc
+    # except :
+        # print("Error")
 
 # 게시글 내용 가져오기
 def getPostContent(postNum) :

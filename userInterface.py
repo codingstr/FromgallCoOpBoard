@@ -94,7 +94,7 @@ def refresh():
     refTime = int(Settings.settings[0])
     refTimeLeft = refTime
     canvas.yview_moveto(0)
-    print("refreshed!")
+    # print("refreshed!")
 
 def openSetting() :
     Settings.openSettingsWindow()
